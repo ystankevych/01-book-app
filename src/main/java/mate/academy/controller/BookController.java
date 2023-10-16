@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import mate.academy.dto.BookDto;
 import mate.academy.dto.CreateBookRequestDto;
 import mate.academy.service.BookService;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
     private final BookService bookService;
 
+    @PostMapping
+    public BookDto createBook(@RequestBody CreateBookRequestDto book) {
+        return bookService.save(book);
+    }
+
+    @PostMapping("/{id}")
+    public BookDto updateBook(@PathVariable Long id, @RequestBody CreateBookRequestDto book) {
+        return bookService.updateBook(id, book);
+    }
+
     @GetMapping
     public List<BookDto> getAll() {
         return bookService.findAll();
@@ -28,8 +39,8 @@ public class BookController {
         return bookService.findById(id);
     }
 
-    @PostMapping
-    public BookDto createBook(@RequestBody CreateBookRequestDto book) {
-        return bookService.save(book);
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id) {
+        bookService.deleteById(id);
     }
 }

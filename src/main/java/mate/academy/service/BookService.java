@@ -7,7 +7,11 @@ import mate.academy.dto.CreateBookRequestDto;
 public interface BookService {
     BookDto save(CreateBookRequestDto book);
 
+    BookDto updateBook(Long id, CreateBookRequestDto book);
+
     List<BookDto> findAll();
 
     BookDto findById(Long id);
+
+    void deleteById(Long id);
 }
