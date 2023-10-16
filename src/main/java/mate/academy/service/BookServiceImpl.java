@@ -3,18 +3,23 @@ package mate.academy.service;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.BookDto;
+import mate.academy.dto.BookSearchParametersDto;
 import mate.academy.dto.CreateBookRequestDto;
 import mate.academy.exception.EntityNotFoundException;
 import mate.academy.mapper.BookMapper;
 import mate.academy.model.Book;
 import mate.academy.repository.BookRepository;
+import mate.academy.repository.BookSpecificationProvider;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 @RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final BookSpecificationProvider provider;
 
     @Override
     public BookDto save(CreateBookRequestDto book) {
@@ -47,5 +52,18 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteById(Long id) {
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BookDto> findByParameters(BookSearchParametersDto bookSearchDto) {
+        Specification<Book> filter = Specification.where(
+                        CollectionUtils.isEmpty(bookSearchDto.getTitles()) ? null :
+                                provider.titleContainsIgnoreCase(bookSearchDto.getTitles()))
+                .and(CollectionUtils.isEmpty(bookSearchDto.getAuthors()) ? null :
+                        provider.authorIn(bookSearchDto.getAuthors()));
+        return bookRepository.findAll(filter)
+                .stream()
+                .map(bookMapper::toDto)
+                .toList();
     }
 }
