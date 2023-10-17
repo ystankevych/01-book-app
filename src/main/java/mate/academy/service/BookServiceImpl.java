@@ -45,8 +45,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto findById(Long id) {
-        return bookMapper.toDto(bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find book by id " + id)));
+        return bookRepository.findById(id)
+                .map(bookMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException("Can't find book by id " + id));
     }
 
     @Override
@@ -57,10 +58,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDto> findByParameters(BookSearchParametersDto bookSearchDto) {
         Specification<Book> filter = Specification.where(
-                        CollectionUtils.isEmpty(bookSearchDto.getTitles()) ? null :
-                                provider.titleContainsIgnoreCase(bookSearchDto.getTitles()))
-                .and(CollectionUtils.isEmpty(bookSearchDto.getAuthors()) ? null :
-                        provider.authorIn(bookSearchDto.getAuthors()));
+                        CollectionUtils.isEmpty(bookSearchDto.titles()) ? null :
+                                provider.titleContainsIgnoreCase(bookSearchDto.titles()))
+                .and(CollectionUtils.isEmpty(bookSearchDto.authors()) ? null :
+                        provider.authorIn(bookSearchDto.authors()));
         return bookRepository.findAll(filter)
                 .stream()
                 .map(bookMapper::toDto)

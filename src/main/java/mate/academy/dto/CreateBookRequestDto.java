@@ -1,14 +1,12 @@
 package mate.academy.dto;
 
 import java.math.BigDecimal;
-import lombok.Data;
 
-@Data
-public class CreateBookRequestDto {
-    private String title;
-    private String author;
-    private String isbn;
-    private BigDecimal price;
-    private String description;
-    private String coverImage;
-}
+public record CreateBookRequestDto(
+        String title,
+        String author,
+        String isbn,
+        BigDecimal price,
+        String description,
+        String coverImage
+) {}
