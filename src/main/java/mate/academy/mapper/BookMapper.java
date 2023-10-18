@@ -5,6 +5,7 @@ import mate.academy.dto.CreateBookRequestDto;
 import mate.academy.model.Book;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
 
 @Mapper(componentModel = "spring",
@@ -15,4 +16,6 @@ public interface BookMapper {
     BookDto toDto(Book book);
 
     Book toBook(CreateBookRequestDto createBookRequestDto);
+
+    void updateBookFromDto(CreateBookRequestDto book, @MappingTarget Book entity);
 }
