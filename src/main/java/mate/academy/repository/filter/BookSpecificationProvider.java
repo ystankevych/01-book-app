@@ -1,4 +1,4 @@
-package mate.academy.repository;
+package mate.academy.repository.filter;
 
 import jakarta.persistence.criteria.Predicate;
 import java.util.List;
