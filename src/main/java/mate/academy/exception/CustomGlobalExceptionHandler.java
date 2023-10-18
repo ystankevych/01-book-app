@@ -14,17 +14,20 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class CustomGlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(BAD_REQUEST)
     protected ResponseEntity<Object> invalidArgument(MethodArgumentNotValidException ex) {
         return buildResponseEntity(new BookApiError(BAD_REQUEST,
                 LocalDateTime.now(), getErrorsMessage(ex.getBindingResult())));
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
     protected ResponseEntity<Object> handleEntityNotFoundException(
             EntityNotFoundException ex
     ) {
