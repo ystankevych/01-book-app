@@ -16,9 +16,6 @@ public record CreateBookRequestDto(
         String isbn,
         @NotNull(message = "Price must not be null")
         @Positive(message = "Price must not be negative")
-        String title,
-        String author,
-        String isbn,
         BigDecimal price,
         String description,
         String coverImage
