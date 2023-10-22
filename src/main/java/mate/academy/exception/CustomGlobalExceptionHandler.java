@@ -6,7 +6,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.stream.Collectors;
-import mate.academy.exception.errors.BookApiError;
+
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class CustomGlobalExceptionHandler {
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> invalidArgument(MethodArgumentNotValidException ex) {
-        return buildResponseEntity(new BookApiError(BAD_REQUEST,
+        return buildResponseEntity(new BookApiException(BAD_REQUEST,
                 LocalDateTime.now(), getErrorsMessage(ex.getBindingResult())));
     }
 
@@ -28,11 +27,11 @@ public class CustomGlobalExceptionHandler {
     protected ResponseEntity<Object> handleEntityNotFoundException(
             EntityNotFoundException ex
     ) {
-        return buildResponseEntity(new BookApiError(NOT_FOUND,
+        return buildResponseEntity(new BookApiException(NOT_FOUND,
                 LocalDateTime.now(), ex.getMessage()));
     }
 
-    private ResponseEntity<Object> buildResponseEntity(BookApiError bookApiError) {
+    private ResponseEntity<Object> buildResponseEntity(BookApiException bookApiError) {
         return new ResponseEntity<>(bookApiError, bookApiError.status());
     }
 
