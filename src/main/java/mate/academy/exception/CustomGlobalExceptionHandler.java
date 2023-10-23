@@ -23,9 +23,7 @@ public class CustomGlobalExceptionHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    protected ResponseEntity<Object> handleEntityNotFoundException(
-            EntityNotFoundException ex
-    ) {
+    protected ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex) {
         return buildResponseEntity(new BookApiException(NOT_FOUND,
                 LocalDateTime.now(), ex.getMessage()));
     }
