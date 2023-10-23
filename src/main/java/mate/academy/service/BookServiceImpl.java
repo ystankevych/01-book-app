@@ -10,6 +10,7 @@ import mate.academy.mapper.BookMapper;
 import mate.academy.model.Book;
 import mate.academy.repository.BookRepository;
 import mate.academy.repository.filter.BookSpecificationBuilder;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -28,14 +29,14 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto updateBook(Long id, CreateBookRequestDto book) {
         Book bookFromDb = bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Can't update book with id " + id));
+                .orElseThrow(() -> new EntityNotFoundException(getNotFoundMessage(id)));
         bookMapper.updateBookFromDto(book, bookFromDb);
         return bookMapper.toDto(bookRepository.save(bookFromDb));
     }
 
     @Override
-    public List<BookDto> findAll() {
-        return bookRepository.findAll()
+    public List<BookDto> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable)
                 .stream()
                 .map(bookMapper::toDto)
                 .toList();
@@ -45,7 +46,7 @@ public class BookServiceImpl implements BookService {
     public BookDto findById(Long id) {
         return bookRepository.findById(id)
                 .map(bookMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find book by id " + id));
+                .orElseThrow(() -> new EntityNotFoundException(getNotFoundMessage(id)));
     }
 
     @Override
@@ -54,10 +55,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> findByParameters(BookSearchParametersDto bookSearchDto) {
-        return bookRepository.findAll(builder.buildSpecification(bookSearchDto))
+    public List<BookDto> findByParameters(BookSearchParametersDto bookSearchDto,
+                                          Pageable pageable) {
+        return bookRepository.findAll(builder.buildSpecification(bookSearchDto), pageable)
                 .stream()
                 .map(bookMapper::toDto)
                 .toList();
+    }
+
+    private String getNotFoundMessage(Long id) {
+        return String.format("Book with id: %s not found", id);
     }
 }
