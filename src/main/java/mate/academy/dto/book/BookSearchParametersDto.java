@@ -1,4 +1,4 @@
-package mate.academy.dto;
+package mate.academy.dto.book;
 
 import java.util.List;
 
