@@ -1,6 +1,13 @@
 package mate.academy.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
@@ -14,7 +21,7 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private RoleName name;
 
-    protected enum RoleName {
+    public enum RoleName {
         ROLE_ADMIN,
         ROLE_USER
     }

@@ -8,13 +8,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class MyUserDetailsService implements UserDetailsService {
     private final UserRepository repository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return repository.findByEmail(username)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find user by email: " + username));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Can't find user by email: " + username));
     }
 }

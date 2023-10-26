@@ -18,22 +18,29 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class CustomGlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> invalidArgument(MethodArgumentNotValidException ex) {
-        return buildResponseEntity(new BookApiException(BAD_REQUEST,
+        return buildResponseEntity(new BookApiErrorResponse(BAD_REQUEST,
                 LocalDateTime.now(), getErrorsMessage(ex.getBindingResult())));
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex) {
-        return buildResponseEntity(new BookApiException(NOT_FOUND,
+        return buildResponseEntity(new BookApiErrorResponse(NOT_FOUND,
                 LocalDateTime.now(), ex.getMessage()));
     }
 
-    private ResponseEntity<Object> buildResponseEntity(BookApiException bookApiError) {
+    @ExceptionHandler(RegistrationException.class)
+    protected ResponseEntity<Object> handleRegistrationException(RegistrationException ex) {
+        return buildResponseEntity(new BookApiErrorResponse(BAD_REQUEST,
+                LocalDateTime.now(), ex.getMessage()));
+    }
+
+    private ResponseEntity<Object> buildResponseEntity(BookApiErrorResponse bookApiError) {
         return new ResponseEntity<>(bookApiError, bookApiError.status());
     }
 
     private Map<String, String> getErrorsMessage(BindingResult bindingResult) {
         return bindingResult.getAllErrors().stream()
+                .filter(e -> e instanceof FieldError)
                 .collect(Collectors.groupingBy(e -> ((FieldError)e).getField(),
                         Collectors.mapping(DefaultMessageSourceResolvable::getDefaultMessage,
                                 Collectors.joining())));
