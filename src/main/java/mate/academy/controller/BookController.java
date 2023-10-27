@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Book management", description = "Endpoints for managing books")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/books")
+@RequestMapping("/books")
 @Validated
 public class BookController {
     private final BookService bookService;
@@ -51,6 +51,7 @@ public class BookController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @Operation(
             summary = "Get all books",
             description = """
@@ -61,6 +62,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @Operation(summary = "Get a book by its id")
     public BookDto getBookById(@Parameter(description = "Id of book to be searched")
                                @PathVariable @Positive Long id) {
@@ -75,6 +77,7 @@ public class BookController {
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @Operation(
             summary = "Search books by parameters",
             description = """

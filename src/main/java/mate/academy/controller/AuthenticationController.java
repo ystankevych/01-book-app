@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Account management",
         description = "Endpoints for JWT base authentication and authorization")
 @RequiredArgsConstructor
-@RequestMapping(value = "/auth")
+@RequestMapping("/auth")
 @RestController
 public class AuthenticationController {
     private final UserService service;
