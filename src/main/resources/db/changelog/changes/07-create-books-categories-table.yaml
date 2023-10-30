@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-books-categories-table
+      author: Olena Stankevych
+      changes:
+        - createTable:
+            tableName: books_categories
+            columns:
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: books-categories-books
+                    referencedTableName: books
+                    referencedColumnNames: id
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: books-categories-categories
+                    referencedTableName: categories
+                    referencedColumnNames: id
+                    nullable: false
