@@ -11,19 +11,21 @@ import mate.academy.validation.password.FieldMatch;
 )
 public record UserRegistrationRequestDto(
         @Email
+        @Size(max = 255, message = "Maximum allowed size 255 characters")
         String email,
         @NotBlank
+        @Size(max = 255, message = "Maximum allowed size 255 characters")
         String password,
         @NotBlank
+        @Size(max = 255, message = "Maximum allowed size 255 characters")
         String repeatedPassword,
         @NotBlank(message = "First name must not be null or empty")
-        @Size(max = 32,
-                message = "First name must contain maximum 32 characters")
+        @Size(max = 255, message = "Maximum allowed size 255 characters")
         String firstName,
         @NotBlank(message = "Last name must not be null or empty")
-        @Size(max = 32,
-                message = "Last name must contain maximum 32 characters")
+        @Size(max = 255, message = "Maximum allowed size 255 characters")
         String lastName,
+        @Size(max = 255, message = "Maximum allowed size 255 characters")
         String shippingAddress
 ) {
 }
