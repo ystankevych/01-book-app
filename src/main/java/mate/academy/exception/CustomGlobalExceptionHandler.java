@@ -1,6 +1,7 @@
 package mate.academy.exception;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import java.time.LocalDateTime;
@@ -30,7 +31,7 @@ public class CustomGlobalExceptionHandler {
 
     @ExceptionHandler(RegistrationException.class)
     protected ResponseEntity<Object> handleRegistrationException(RegistrationException ex) {
-        return buildResponseEntity(new BookApiErrorResponse(BAD_REQUEST,
+        return buildResponseEntity(new BookApiErrorResponse(CONFLICT,
                 LocalDateTime.now(), ex.getMessage()));
     }
 

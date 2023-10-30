@@ -33,15 +33,13 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto register(UserRegistrationRequestDto request)
             throws RegistrationException {
         if (userRepo.findByEmail(request.email()).isPresent()) {
-            throw new RegistrationException(errorMessage(request.email()));
+            throw new RegistrationException(
+                    String.format("User with this email: %s already exists", request.email())
+            );
         }
         User user = mapper.toUser(request);
         user.setRoles(Set.of(userRole));
         user.setPassword(encoder.encode(request.password()));
         return mapper.toDto(userRepo.save(user));
-    }
-
-    private String errorMessage(String email) {
-        return String.format("user with this email: %s already exists", email);
     }
 }

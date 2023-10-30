@@ -11,9 +11,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FieldMatch {
-    String field();
-
-    String fieldMatch();
+    String[] fields();
     String message() default "Password's are not equal";
 
     Class<?>[] groups() default {};

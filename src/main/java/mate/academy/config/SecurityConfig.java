@@ -1,7 +1,5 @@
 package mate.academy.config;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import lombok.RequiredArgsConstructor;
 import mate.academy.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +40,6 @@ public class SecurityConfig {
                                 .anyRequest()
                                 .authenticated()
                 )
-                .httpBasic(withDefaults())
                 .sessionManagement(
                         s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter,
