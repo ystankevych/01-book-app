@@ -9,8 +9,7 @@ import org.mapstruct.NullValueCheckStrategy;
 
 @Mapper(componentModel = "spring",
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
-        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
-        implementationPackage = "<PACKAGE_NAME>.impl")
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface UserMapper {
     User toUser(UserRegistrationRequestDto user);
 
