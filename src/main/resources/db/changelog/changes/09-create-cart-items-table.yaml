@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-cart-items-table
+      author: Olena Stankevych
+      changes:
+        - createTable:
+            tableName: cart_items
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: shopping_cart_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: cart-items-cart-id
+                    referencedTableName: shopping_carts
+                    referencedColumnNames: id
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: cart-items-book-id
+                    referencedTableName: books
+                    referencedColumnNames: id
+              - column:
+                  name: quantity
+                  type: int
+                  constraints:
+                    nullable: false
