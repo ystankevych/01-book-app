@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto register(UserRegistrationRequestDto request)
             throws RegistrationException {
-        if (userRepo.findByEmail(request.email()).isPresent()) {
+        if (userRepo.existsByEmail(request.email())) {
             throw new RegistrationException(
                     String.format("User with this email: %s already exists", request.email())
             );
