@@ -18,7 +18,9 @@ public record CreateBookRequestDto(
         @NotNull(message = "Price must not be null")
         @Positive(message = "Price must not be negative")
         BigDecimal price,
+        @Size(max = 255, message = "Maximum allowed size 255 characters")
         String description,
+        @Size(max = 255, message = "Maximum allowed size 255 characters")
         String coverImage,
         List<Long> categoriesId
 ) {}
