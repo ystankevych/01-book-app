@@ -29,18 +29,23 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto getById(Long id) {
         return repository.findById(id)
                 .map(mapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(categoryErrorMessage(id)));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "No such a category with id: " + id
+                ));
     }
 
     @Override
-    public CategoryDto save(CategoryRequestDto category) {
-        return mapper.toDto(repository.save(mapper.toCategory(category)));
+    public CategoryDto save(CategoryRequestDto categoryDto) {
+        Category category = mapper.toCategory(categoryDto);
+        return mapper.toDto(repository.save(category));
     }
 
     @Override
     public CategoryDto update(Long id, CategoryRequestDto categoryDto) {
         Category category = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(categoryErrorMessage(id)));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "No such a category with id: " + id
+                ));
         mapper.updateCategoryFromDto(categoryDto, category);
         return mapper.toDto(repository.save(category));
     }
@@ -48,9 +53,5 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
-    }
-
-    private String categoryErrorMessage(Long id) {
-        return String.format("No such a category with id: %s", id);
     }
 }

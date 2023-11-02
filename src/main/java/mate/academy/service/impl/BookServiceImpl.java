@@ -1,9 +1,8 @@
 package mate.academy.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.book.BookDto;
 import mate.academy.dto.book.BookDtoWithoutCategoryIds;
@@ -31,7 +30,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto save(CreateBookRequestDto bookDto) {
         Book book = bookMapper.toBook(bookDto);
-        book.setCategories(new HashSet<>(categoriesIdToCategories(bookDto.categoriesId())));
+        book.setCategories(categoriesIdToCategories(bookDto.categoriesId()));
         return bookMapper.toDto(bookRepository.save(book));
     }
 
@@ -40,7 +39,7 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(getNotFoundMessage(id)));
         bookMapper.updateBookFromDto(bookDto, book);
-        book.setCategories(new HashSet<>(categoriesIdToCategories(bookDto.categoriesId())));
+        book.setCategories(categoriesIdToCategories(bookDto.categoriesId()));
         return bookMapper.toDto(bookRepository.save(book));
     }
 
@@ -84,8 +83,9 @@ public class BookServiceImpl implements BookService {
         return String.format("Book with id: %s not found", id);
     }
 
-    private List<Category> categoriesIdToCategories(List<Long> categories) {
-        return categoryRepository.findAllById(Optional.ofNullable(categories)
-                .orElseGet(ArrayList::new));
+    private Set<Category> categoriesIdToCategories(List<Long> categories) {
+        return categories.stream()
+                .map(categoryRepository::getReferenceById)
+                .collect(Collectors.toSet());
     }
 }

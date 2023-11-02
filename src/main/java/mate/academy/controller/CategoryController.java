@@ -14,6 +14,7 @@ import mate.academy.service.CategoryService;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Category management", description = "Endpoints for mapping categories")
@@ -35,6 +37,7 @@ public class CategoryController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new category")
     public CategoryDto createCategory(@RequestBody @Valid CategoryRequestDto category) {
         return service.save(category);
@@ -42,6 +45,7 @@ public class CategoryController {
 
     @PostMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @ResponseStatus(HttpStatus.OK)
     @Operation(
             summary = "Update existing category",
             description = """
@@ -54,6 +58,7 @@ public class CategoryController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @ResponseStatus(HttpStatus.OK)
     @Operation(
             summary = "Get all categories",
             description = """
@@ -66,6 +71,7 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get a category by its id")
     public CategoryDto getCategoryById(@PathVariable @Positive Long id) {
         return service.getById(id);
@@ -73,6 +79,7 @@ public class CategoryController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete a category by its id")
     public void deleteCategory(@PathVariable @Positive Long id) {
         service.deleteById(id);
@@ -80,6 +87,7 @@ public class CategoryController {
 
     @GetMapping("/{id}/books")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @ResponseStatus(HttpStatus.OK)
     @Operation(
             summary = "Get a list of books",
             description = """
@@ -87,8 +95,7 @@ public class CategoryController {
                     Search parameters: category id"""
     )
     public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(
-            @PathVariable @Positive Long id
-    ) {
+            @PathVariable @Positive Long id) {
         return bookService.findAllByCategoryId(id);
     }
 }
