@@ -1,6 +1,7 @@
 package mate.academy.dto.book;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -22,5 +23,6 @@ public record CreateBookRequestDto(
         String description,
         @Size(max = 255, message = "Maximum allowed size 255 characters")
         String coverImage,
-        List<Long> categoriesId
+        @NotEmpty
+        List<@Positive Long> categoriesId
 ) {}
