@@ -2,6 +2,9 @@ package mate.academy.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -16,11 +19,15 @@ import java.util.Set;
 public class ShoppingCart {
     @Id
     private Long id;
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @MapsId
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private User user;
-    @OneToMany(mappedBy = "shoppingCart")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.MERGE)
     private Set<CartItem> cartItems = new HashSet<>();
     private boolean isDeleted;
 }
