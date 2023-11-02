@@ -39,27 +39,23 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public CartItemDto addBookToCart(Long userId, CartItemRequestDto itemDto) {
-        validateBook(itemDto.bookId());
+        if (!bookRepository.existsById(itemDto.bookId())) {
+            throw new EntityNotFoundException(
+                    String.format("Book with id: %d is not found", itemDto.bookId()));
+        }
         ShoppingCart shoppingCart = repository.findByUserId(userId);
-        CartItem cartItem2 = shoppingCart.getCartItems().stream()
+        CartItem cartItem = shoppingCart.getCartItems().stream()
                 .filter(i -> i.getBook().getId().equals(itemDto.bookId()))
-                .peek(i -> i.setQuantity(i.getQuantity() + itemDto.quantity()))
+                .peek(item -> item.setQuantity(item.getQuantity() + itemDto.quantity()))
                 .findFirst()
-                .orElseGet(() -> {
-                    CartItem newItem = itemMapper.toCartItem(itemDto);
-                    newItem.setShoppingCart(shoppingCart);
-                    shoppingCart.getCartItems().add(newItem);
-                    return newItem;
-                });
+                .orElseGet(() -> addNewItemToCart(itemDto, shoppingCart));
         repository.save(shoppingCart);
-        return itemMapper.toDto(cartItem2);
+        return itemMapper.toDto(cartItem);
     }
 
-    private void validateBook(Long id) {
-        if (!bookRepository.existsById(id)) {
-            throw new EntityNotFoundException(
-                    String.format("Book with id: %d is not found", id)
-            );
-        }
+    private CartItem addNewItemToCart(CartItemRequestDto itemDto, ShoppingCart cart) {
+        CartItem cartItem = itemMapper.toCartItem(itemDto, cart);
+        cart.getCartItems().add(cartItem);
+        return cartItem;
     }
 }
