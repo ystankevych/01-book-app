@@ -1,12 +1,18 @@
 package mate.academy.service;
 
-import mate.academy.dto.cart_item.CartItemDto;
-import mate.academy.dto.cart_item.CartItemRequestDto;
-import mate.academy.dto.shopping_cart.ShoppingCartDto;
+import mate.academy.dto.cartitem.CartItemRequestDto;
+import mate.academy.dto.cartitem.UpdateCartItemDto;
+import mate.academy.dto.shoppingcart.ShoppingCartDto;
 import mate.academy.model.User;
 
 public interface ShoppingCartService {
     void registerShoppingCart(User user);
-    ShoppingCartDto getCartByUserId(Long id);
-    CartItemDto addBookToCart(Long userId, CartItemRequestDto item);
+
+    ShoppingCartDto getUsersCart(Long userId);
+
+    ShoppingCartDto addBookToCart(Long userId, CartItemRequestDto item);
+
+    ShoppingCartDto updateBookQuantity(Long userId, Long cartItemId, UpdateCartItemDto itemDto);
+
+    void deleteBookFromCart(Long userId, Long itemId);
 }

@@ -1,6 +1,5 @@
 package mate.academy.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,13 +12,13 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "books")
 @SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id = ?")
@@ -28,20 +27,26 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String title;
+
     @Column(nullable = false)
     private String author;
+
     @Column(unique = true, nullable = false)
     private String isbn;
+
     @Column(nullable = false)
     private BigDecimal price;
+
     private String description;
+
     private String coverImage;
+
     private boolean isDeleted;
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @ManyToMany(cascade = CascadeType.MERGE)
+
+    @ManyToMany
     @JoinTable(
             name = "books_categories",
             joinColumns = @JoinColumn(name = "book_id"),

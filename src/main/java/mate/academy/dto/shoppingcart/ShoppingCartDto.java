@@ -1,8 +1,7 @@
-package mate.academy.dto.shopping_cart;
-
-import mate.academy.dto.cart_item.CartItemDto;
+package mate.academy.dto.shoppingcart;
 
 import java.util.Set;
+import mate.academy.dto.cartitem.CartItemDto;
 
 public record ShoppingCartDto(
         Long id,

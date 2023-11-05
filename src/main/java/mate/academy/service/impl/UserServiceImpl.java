@@ -15,6 +15,7 @@ import mate.academy.service.ShoppingCartService;
 import mate.academy.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService {
         userRole = roleRepo.findByName(Role.RoleName.ROLE_USER);
     }
 
+    @Transactional
     @Override
     public UserResponseDto register(UserRegistrationRequestDto request)
             throws RegistrationException {

@@ -12,15 +12,15 @@ import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Data
+@Getter
+@Setter
 @Entity
 @SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted=false")
@@ -44,8 +44,6 @@ public class User implements UserDetails {
 
     private String shippingAddress;
 
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     @ManyToMany
     @JoinTable(
             name = "users_roles",
@@ -54,6 +52,7 @@ public class User implements UserDetails {
 
     )
     private Set<Role> roles = new HashSet<>();
+
     private boolean isDeleted;
 
     @Override
