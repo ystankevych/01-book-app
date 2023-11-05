@@ -45,7 +45,6 @@ public class CategoryController {
 
     @PostMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    @ResponseStatus(HttpStatus.OK)
     @Operation(
             summary = "Update existing category",
             description = """
@@ -58,7 +57,6 @@ public class CategoryController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @ResponseStatus(HttpStatus.OK)
     @Operation(
             summary = "Get all categories",
             description = """
@@ -71,7 +69,6 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get a category by its id")
     public CategoryDto getCategoryById(@PathVariable @Positive Long id) {
         return service.getById(id);
@@ -87,7 +84,6 @@ public class CategoryController {
 
     @GetMapping("/{id}/books")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @ResponseStatus(HttpStatus.OK)
     @Operation(
             summary = "Get a list of books",
             description = """
