@@ -2,5 +2,7 @@ package mate.academy.dto.cartitem;
 
 import jakarta.validation.constraints.Positive;
 
-public record UpdateCartItemDto(@Positive int quantity) {
-}
+public record UpdateCartItemDto(
+        @Positive(message = "Quantity must be positive")
+        int quantity
+) {}
