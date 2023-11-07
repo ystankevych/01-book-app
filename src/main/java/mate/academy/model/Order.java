@@ -1,6 +1,18 @@
 package mate.academy.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
@@ -25,15 +37,15 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.PENDING;
 
     @Column(nullable = false)
     private BigDecimal total;
 
-    @Column(nullable = false)
-    private LocalDateTime orderDate;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    private LocalDateTime orderDate = LocalDateTime.now();
 
     @Column(nullable = false)
     private String shippingAddress;
@@ -44,6 +56,6 @@ public class Order {
     private boolean isDeleted;
 
     public enum Status {
-        COMPLETED, DELIVERED, PENDING
+        COMPLETED, DELIVERED, PENDING, SHIPPED
     }
 }
