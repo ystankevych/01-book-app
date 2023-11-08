@@ -19,9 +19,7 @@ import mate.academy.repository.filter.BookSpecificationBuilder;
 import mate.academy.service.BookService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
@@ -65,7 +63,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteById(Long id) {
         bookRepository.deleteById(id);
-        itemRepository.deleteAllByBook_Id(id);
+        itemRepository.deleteAllByBookId(id);
     }
 
     @Override
