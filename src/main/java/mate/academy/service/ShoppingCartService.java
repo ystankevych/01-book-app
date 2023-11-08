@@ -3,7 +3,6 @@ package mate.academy.service;
 import mate.academy.dto.cartitem.CartItemRequestDto;
 import mate.academy.dto.cartitem.UpdateCartItemDto;
 import mate.academy.dto.shoppingcart.ShoppingCartDto;
-import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 
 public interface ShoppingCartService {

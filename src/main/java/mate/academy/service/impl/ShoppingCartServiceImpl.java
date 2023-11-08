@@ -83,7 +83,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         itemRepository.delete(cartItem);
     }
 
-
     private CartItem createCartItem(CartItemRequestDto itemDto, Book book, ShoppingCart cart) {
         CartItem cartItem = itemMapper.toCartItem(itemDto);
         cartItem.setShoppingCart(cart);

@@ -1,5 +1,6 @@
 package mate.academy.mapper;
 
+import java.util.List;
 import mate.academy.dto.orderitem.OrderItemDto;
 import mate.academy.model.CartItem;
 import mate.academy.model.OrderItem;
@@ -19,4 +20,6 @@ public interface OrderItemMapper {
 
     @Mapping(target = "bookId", source = "book.id")
     OrderItemDto toOrderItemDto(OrderItem orderItem);
+
+    List<OrderItemDto> toOrderItemDtoList(List<OrderItem> orderItems);
 }

@@ -1,11 +1,8 @@
 package mate.academy.dto.order;
 
-
-import mate.academy.dto.orderitem.OrderItemDto;
-
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
+import mate.academy.dto.orderitem.OrderItemDto;
 
 public record OrderDto(
         Long id,
