@@ -13,7 +13,6 @@ import mate.academy.mapper.BookMapper;
 import mate.academy.model.Book;
 import mate.academy.model.Category;
 import mate.academy.repository.BookRepository;
-import mate.academy.repository.CartItemRepository;
 import mate.academy.repository.CategoryRepository;
 import mate.academy.repository.filter.BookSpecificationBuilder;
 import mate.academy.service.BookService;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
-    private final CartItemRepository itemRepository;
     private final CategoryRepository categoryRepository;
     private final BookMapper bookMapper;
     private final BookSpecificationBuilder builder;
@@ -63,7 +61,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteById(Long id) {
         bookRepository.deleteById(id);
-        itemRepository.deleteAllByBookId(id);
     }
 
     @Override

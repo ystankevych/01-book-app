@@ -6,7 +6,7 @@ import mate.academy.dto.shoppingcart.ShoppingCartDto;
 import mate.academy.model.User;
 
 public interface ShoppingCartService {
-    void registerShoppingCart(User user);
+    void createShoppingCart(User user);
 
     ShoppingCartDto getUsersCart(Long userId);
 
