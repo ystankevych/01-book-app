@@ -10,5 +10,5 @@ public record OrderDto(
         List<OrderItemDto> orderItems,
         String orderDate,
         BigDecimal total,
-        String status
-) {}
+        String status) {
+}
