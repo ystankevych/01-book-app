@@ -15,7 +15,6 @@ import mate.academy.model.Order;
 import mate.academy.model.Order.Status;
 import mate.academy.model.OrderItem;
 import mate.academy.model.ShoppingCart;
-import mate.academy.repository.CartItemRepository;
 import mate.academy.repository.OrderItemRepository;
 import mate.academy.repository.OrderRepository;
 import mate.academy.repository.ShoppingCartRepository;
@@ -28,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class OrderServiceImpl implements OrderService {
     private final ShoppingCartRepository cartRepository;
-    private final CartItemRepository cartItemRepository;
     private final OrderRepository orderRepository;
     private final OrderItemRepository itemRepository;
     private final OrderMapper orderMapper;
@@ -42,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderException("Cart is empty for user: " + userId);
         }
         Order order = orderMapper.cartToOrder(cart, orderDto.shippingAddress());
-        cartItemRepository.deleteAllByShoppingCart_Id(cart.getId());
+        cart.clearCart();
         return orderMapper.toOrderDto(orderRepository.save(order));
     }
 
