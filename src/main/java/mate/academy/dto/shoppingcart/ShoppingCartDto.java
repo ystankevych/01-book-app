@@ -6,5 +6,6 @@ import mate.academy.dto.cartitem.CartItemDto;
 public record ShoppingCartDto(
         Long id,
         Long userId,
-        Set<CartItemDto> cartItems
-) {}
+        Set<CartItemDto> cartItems) {
+
+}

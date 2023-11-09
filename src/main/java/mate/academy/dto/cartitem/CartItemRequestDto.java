@@ -8,5 +8,6 @@ public record CartItemRequestDto(
         @NotNull(message = "Book id must not be null")
         Long bookId,
         @Positive(message = "Quantity must be positive")
-        int quantity
-) {}
+        int quantity) {
+
+}

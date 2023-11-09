@@ -28,7 +28,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final CartItemMapper itemMapper;
 
     @Override
-    public void registerShoppingCart(User user) {
+    public void createShoppingCart(User user) {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
         repository.save(shoppingCart);
@@ -47,12 +47,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                         String.format("Book with id: %d is not found", itemDto.bookId())
                 ));
         ShoppingCart cart = repository.findByUserId(userId);
-        CartItem cartItem = itemRepository.findByShoppingCartIdAndBookId(cart.getId(), book.getId())
-                .map(item -> {
-                    item.setQuantity(item.getQuantity() + itemDto.quantity());
-                    return item;
-                }).orElseGet(() -> createCartItem(itemDto, book, cart));
-        itemRepository.save(cartItem);
+        cart.getCartItems().stream()
+                .filter(item -> item.getBook().getId().equals(itemDto.bookId()))
+                .findFirst()
+                .ifPresentOrElse(item -> item.setQuantity(item.getQuantity() + itemDto.quantity()),
+                        () -> addCartItemToCart(itemDto, book, cart));
+        repository.save(cart);
         return cartMapper.toDto(cart);
     }
 
@@ -80,14 +80,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("No such cartItem with id %d in shopping cart", itemId)
                 ));
-        itemRepository.delete(cartItem);
+        shoppingCart.removeItemFromCart(cartItem);
     }
 
-    private CartItem createCartItem(CartItemRequestDto itemDto, Book book, ShoppingCart cart) {
+    private void addCartItemToCart(CartItemRequestDto itemDto, Book book, ShoppingCart cart) {
         CartItem cartItem = itemMapper.toCartItem(itemDto);
-        cartItem.setShoppingCart(cart);
         cartItem.setBook(book);
-        cart.getCartItems().add(cartItem);
-        return cartItem;
+        cart.addItemToCart(cartItem);
     }
 }
