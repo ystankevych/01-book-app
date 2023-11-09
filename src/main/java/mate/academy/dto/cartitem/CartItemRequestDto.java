@@ -9,5 +9,4 @@ public record CartItemRequestDto(
         Long bookId,
         @Positive(message = "Quantity must be positive")
         int quantity) {
-
 }
