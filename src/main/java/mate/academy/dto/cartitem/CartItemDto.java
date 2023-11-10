@@ -5,5 +5,4 @@ public record CartItemDto(
         Long bookId,
         String bookTitle,
         Integer quantity) {
-
 }
