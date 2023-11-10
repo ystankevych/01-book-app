@@ -8,7 +8,7 @@ import mate.academy.dto.order.UpdateOrderDto;
 import mate.academy.dto.order.UpdateOrderResponseDto;
 import mate.academy.dto.orderitem.OrderItemDto;
 import mate.academy.exception.EntityNotFoundException;
-import mate.academy.exception.OrderException;
+import mate.academy.exception.OrderProcessingException;
 import mate.academy.mapper.OrderItemMapper;
 import mate.academy.mapper.OrderMapper;
 import mate.academy.model.Order;
@@ -37,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto createOrder(Long userId, CreateOrderRequestDto orderDto) {
         ShoppingCart cart = cartRepository.findByUserId(userId);
         if (cart.getCartItems().isEmpty()) {
-            throw new OrderException("Cart is empty for user: " + userId);
+            throw new OrderProcessingException("Cart is empty for user: " + userId);
         }
         Order order = orderMapper.cartToOrder(cart, orderDto.shippingAddress());
         cart.clearCart();
@@ -53,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
     public UpdateOrderResponseDto updateOrderStatus(Long orderId, UpdateOrderDto orderDto) {
         Order order = orderRepository.findById(orderId)
                 .map(o -> {
-                    o.setStatus(getStatusByName(orderDto.status()));
+                    o.setStatus(Status.valueOf(orderDto.status()));
                     return o;
                 })
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -79,15 +79,5 @@ public class OrderServiceImpl implements OrderService {
                                 orderItemId, orderId, userId)
                 ));
         return orderItemMapper.toOrderItemDto(item);
-    }
-
-    private Status getStatusByName(String status) {
-        try {
-            return Status.valueOf(status.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new EntityNotFoundException(
-                    String.format("Status: %s not found", status), e
-            );
-        }
     }
 }
