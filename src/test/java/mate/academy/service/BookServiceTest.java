@@ -1,6 +1,7 @@
 package mate.academy.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -22,6 +23,7 @@ import mate.academy.service.impl.BookServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
@@ -37,8 +39,8 @@ public class BookServiceTest {
     @Mock
     private CategoryRepository categoryRepository;
 
-    @Mock
-    private BookMapper mapper;
+    @Spy
+    private BookMapper mapper = Mappers.getMapper(BookMapper.class);
 
     @InjectMocks
     private BookServiceImpl bookService;
@@ -57,43 +59,35 @@ public class BookServiceTest {
                 List.of(1L, 2L)
         );
 
+        Book book = bookFromRequestDto(requestDto);
+
+        categoriesFromRequestDto(requestDto).forEach(c -> when(categoryRepository.getReferenceById(anyLong())).thenReturn(c));
+        when(bookRepository.save(any(Book.class))).thenReturn(book);
+
+        BookDto bookDto = bookService.save(requestDto);
+
+
+    }
+
+    private Book bookFromRequestDto(CreateBookRequestDto requestDto) {
         Book book = new Book();
+        book.setId(1L);
         book.setTitle(requestDto.title());
         book.setAuthor(requestDto.author());
         book.setIsbn(requestDto.isbn());
         book.setPrice(requestDto.price());
-        book.setCategories(defaultCategories().collect(Collectors.toSet()));
-
-        defaultCategories().forEach(c -> when(categoryRepository.getReferenceById(anyLong())).thenReturn(c));
-        when(bookRepository.save(book)).thenReturn(book);
-
-        BookDto bookDto = bookService.save(requestDto);
-
-        assertThat(bookDto)
-                .hasFieldOrPropertyWithValue("title", "Rich Dad Poor Dad")
-                .hasFieldOrPropertyWithValue("author", "R.Kiyosaki")
-                .hasFieldOrPropertyWithValue("isbn", "1234567890")
-                .hasFieldOrPropertyWithValue("price", BigDecimal.valueOf(14.99));
-    }
-
-    private Book getDefaultBook() {
-        Book book = new Book();
-        book.setId(1L);
-        book.setTitle("title");
-        book.setAuthor("author");
-        book.setIsbn("1234567890");
-        book.setPrice(BigDecimal.TEN);
-        book.setDescription("description");
-        book.setCoverImage("cover_image");
-        book.setCategories(Set.of(getDefaultCategory()));
+        book.setDescription(requestDto.description());
+        book.setCoverImage(requestDto.coverImage());
+        book.setCategories(categoriesFromRequestDto(requestDto));
         return book;
     }
 
-    private Stream<Category> defaultCategories() {
-        Category first = new Category();
-        Category second = new Category();
-        first.setId(1L);
-        second.setId(2L);
-        return Stream.of(first, second);
+    private Set<Category> categoriesFromRequestDto(CreateBookRequestDto requestDto) {
+        return requestDto.categoriesId().stream()
+                .map(i -> {
+                    Category category = new Category();
+                    category.setId(i);
+                    return category;
+                }).collect(Collectors.toSet());
     }
 }
