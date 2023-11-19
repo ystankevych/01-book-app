@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
@@ -23,6 +24,7 @@ import org.hibernate.annotations.Where;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = "books")
 @SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id = ?")
@@ -57,8 +59,10 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "category_id")
 
     )
+    @EqualsAndHashCode.Exclude
     private Set<Category> categories = new HashSet<>();
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
     private List<CartItem> cartItems = new ArrayList<>();
 }
