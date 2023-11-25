@@ -2,6 +2,7 @@ package mate.academy.service;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -13,8 +14,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 import mate.academy.dto.book.BookDto;
+import mate.academy.dto.book.BookDtoWithoutCategoryIds;
 import mate.academy.dto.book.CreateBookRequestDto;
 import mate.academy.exception.EntityNotFoundException;
 import mate.academy.mapper.BookMapper;
@@ -106,8 +107,8 @@ public class BookServiceTest {
             Checking updating a book with an invalid id will throw an exception""")
     void updateBook_WithInvalidId_ShouldThrowException() {
         Long invalidId = 100L;
-        CreateBookRequestDto requestDto = defaultRequestDto("title", "author", "111",
-                BigDecimal.ONE, List.of(1L));
+        CreateBookRequestDto requestDto = new CreateBookRequestDto("title", "author", "111",
+                BigDecimal.ONE, null, null, List.of(1L));
         when(bookRepository.findById(anyLong())).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class,
                 () -> bookService.updateBook(invalidId, requestDto));
@@ -115,7 +116,7 @@ public class BookServiceTest {
 
     @Test
     @DisplayName("""
-            Verify correct list of BookDto was returned after""")
+            Verify correct list of BookDto was returned after findAll was called""")
     void findAll_Book_ShouldReturnListOfDto() {
         Book book = defaultBook("Rich Dad Poor Dad", "Kiyosaki", "111",
                 BigDecimal.ONE, Set.of(categoryById(1L)));
@@ -147,7 +148,7 @@ public class BookServiceTest {
         BookDto expected = dtoFromBook(bookFromDb);
         BookDto actual = bookService.findById(bookId);
 
-        assertEquals(expected, actual, "expected result is: " + expected);
+        assertEquals(expected, actual, String.format("Expected %s but was %s", expected, actual));
     }
 
     @Test
@@ -169,9 +170,35 @@ public class BookServiceTest {
         verify(bookRepository).deleteById(id);
     }
 
-    private CreateBookRequestDto defaultRequestDto(String title, String author,
-                                                   String isbn, BigDecimal price, List<Long> ids) {
-        return new CreateBookRequestDto(title, author, isbn, price, null, null, ids);
+    @Test
+    @DisplayName("Retrieving list of book by valid category id")
+    void findAllByCategoryId_WithValidId_ShouldReturnCorrectListDto() {
+        Long categoryId = 1L;
+
+        Book bookFromDb = defaultBook("Rich Dad Poor Dad", "Kiyosaki", "111",
+                BigDecimal.ONE, Set.of(categoryById(1L)));
+        bookFromDb.setId(1L);
+
+        BookDtoWithoutCategoryIds result = new BookDtoWithoutCategoryIds(bookFromDb.getId(),
+                bookFromDb.getTitle(), bookFromDb.getAuthor(), bookFromDb.getIsbn(),
+                bookFromDb.getPrice(), null, null);
+
+        when(bookRepository.findByCategories_Id(anyLong()))
+                .thenReturn(Collections.singletonList(bookFromDb));
+
+        List<BookDtoWithoutCategoryIds> expected = Collections.singletonList(result);
+        List<BookDtoWithoutCategoryIds> actual = bookService.findAllByCategoryId(categoryId);
+
+        assertIterableEquals(expected, actual);
+    }
+
+    @Test
+    void findAllByCategoryId_WithInvalidId_ShouldReturnEmptyList() {
+        when(bookRepository.findByCategories_Id(-1L)).thenReturn(Collections.emptyList());
+
+        List<BookDtoWithoutCategoryIds> actual = bookService.findAllByCategoryId(-1L);
+
+        assertTrue(actual.isEmpty());
     }
 
     private Book defaultBook(String title, String author, String isbn,
@@ -196,7 +223,7 @@ public class BookServiceTest {
     private List<Long> categoriesIdFromCategories(Set<Category> categories) {
         return categories.stream()
                 .map(Category::getId)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private Category categoryById(Long id) {
