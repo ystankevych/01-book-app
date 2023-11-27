@@ -1,4 +1,4 @@
-# <h1 align="center"> BOOK-APP - Spring Boot Rest Application
+# BOOK-APP - Spring Boot Rest Application
 
 
 ### Table of contents
