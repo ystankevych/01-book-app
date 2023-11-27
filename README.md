@@ -2,14 +2,14 @@
 
 
 ### Table of contents
-* [ Project Overview <a name="project-overview"></a>](#project-overview-a-nameproject-overviewa)
+* [ Project Overview](#project-overview)
 * [ Technologies used](#technologies-used)
 * [ Models and relations](#models-and-relations)
 * [ Project structure](#project-structure)
 * [ Getting Started ](#getting-started)
 
 
-### Project Overview <a name=project-overview></a>
+### Project Overview
 Book-app - is a REST application that supports JWT-based authentication,
 registration and provides platform for both administrator and customers to
 interact with books, shopping-carts, orders. Project was developed according to SOLID principles
