@@ -76,4 +76,8 @@ follows a Three-Tier Architecture:
 * **validation** custom annotations for validation
 
 ### Getting started
-  
+* Clone the [**repository**](https://github.com/ystankevych/book-app)
+* Create a `.env` file with the necessary environment variables. (See `.env-sample` for a sample.)
+* Run the following command to build and start the Docker containers:
+  `docker-compose up --build`.
+* The application should now be running at `http://localhost:8088`.
