@@ -16,12 +16,12 @@
 
 ### about
 
-
+https://i.ibb.co/N6ntxJR/image.png
 
 
 
 ###fjdsfhksd
 
 ### Models and relations <a name="models"></a>
-<div align="center"><a href="https://ibb.co/d0JjBVZ"><img src="https://i.ibb.co/7JNjvZh/image.png" alt="demo-app-screen-readme-git" border="0" /></a></div>
+<div align="center"><a href="https://i.ibb.co/N6ntxJR/image.png"><img src="https://i.ibb.co/7JNjvZh/image.png" alt="demo-app-screen-readme-git" border="0" /></a></div>
 
