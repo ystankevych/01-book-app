@@ -7,6 +7,7 @@
 * [ Models and relations](#models-and-relations)
 * [ Project structure](#project-structure)
 * [ Getting Started ](#getting-started)
+* [Postman collection / Video overview](#postman-collection/video-overview)
 * [ Swagger ](#swagger)
 * [Contacts](#contacts)
 
@@ -84,10 +85,20 @@ follows a Three-Tier Architecture:
   `docker-compose up --build`.
 * The application should now be running at `http://localhost:8088`
 
+### Postman collection / Video overview
+* [Postman collection](https://github.com/Someboty/BookShelf/tree/23e0afb8892ba7a5e418cf345126b7f86ae1da2c/src/main/resources) - 
+I've created a handy Postman collection to simplify and speed up the process of testing my API and engaging with my application. So feel free to use it.
+* [Briefly video overview](https://www.loom.com/share/e9243102c64f477699a61a20f7c7ed90) - at this link you will find a short video overview of my book-app =).
+> To test the application as a user - just create account and use your credentials to obtain JWT-token.
+
+> To test the application as an admin you could use the following credentials:  
+> ```email: admin@ukr.net```  
+> ```password: 123456```
+
+
 ### Swagger
 To access the API documentation after running the application, visit the [Swagger API documentation](http://localhost:8088/api/swagger-ui/index.html#/).
 
-[Briefly video overview with Swagger](https://www.loom.com/share/e9243102c64f477699a61a20f7c7ed90) - at this link you will find a short video overview of my book-app =)
 
 ### Contacts
 Olena Stankevych -
