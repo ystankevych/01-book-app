@@ -7,7 +7,7 @@
 * [ Models and relations](#models-and-relations)
 * [ Project structure](#project-structure)
 * [ Getting Started ](#getting-started)
-* [Postman collection / Video overview](#postman-collection/video-overview)
+* [Postman collection, video overview](#postman-collection-video-overview)
 * [ Swagger ](#swagger)
 * [Contacts](#contacts)
 
@@ -85,7 +85,7 @@ follows a Three-Tier Architecture:
   `docker-compose up --build`.
 * The application should now be running at `http://localhost:8088`
 
-### Postman collection / Video overview
+### Postman collection, video overview
 * [Postman collection](https://github.com/ystankevych/book-app/blob/ae18e08b9c210759de86c06915dcc8cdf2afe494/Book.postman_collection.json) - 
 I've created a handy Postman collection to simplify and speed up the process of testing my API and engaging with my application. So feel free to use it.
 * [Briefly video overview](https://www.loom.com/share/e9243102c64f477699a61a20f7c7ed90) - at this link you will find a short video overview of my book-app =).
