@@ -36,7 +36,7 @@ follows a Three-Tier Architecture:
 * Docker
 
 ### Models and relations
-![models_relations](models_relations.png)
+<div align="center"><a href="https://i.ibb.co/N6ntxJR/image.png"><img src="https://i.ibb.co/7JNjvZh/image.png" alt="demo-app-screen-readme-git" border="0" /></a></div>
 
 ### Project structure:
 * **config**: classes providing application configuration
