@@ -30,18 +30,18 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     @Override
-    public BookDto updateBook(Long id, CreateBookRequestDto bookDto) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(getNotFoundMessage(id)));
-        bookMapper.updateBookFromDto(bookDto, book);
+    public BookDto save(CreateBookRequestDto bookDto) {
+        Book book = bookMapper.toBook(bookDto);
         book.setCategories(categoriesIdToCategories(bookDto.categoriesId()));
         return bookMapper.toDto(bookRepository.save(book));
     }
 
-    @Override
     @Transactional
-    public BookDto save(CreateBookRequestDto bookDto) {
-        Book book = bookMapper.toBook(bookDto);
+    @Override
+    public BookDto updateBook(Long id, CreateBookRequestDto bookDto) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(getNotFoundMessage(id)));
+        bookMapper.updateBookFromDto(bookDto, book);
         book.setCategories(categoriesIdToCategories(bookDto.categoriesId()));
         return bookMapper.toDto(bookRepository.save(book));
     }
