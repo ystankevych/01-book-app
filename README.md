@@ -86,7 +86,7 @@ follows a Three-Tier Architecture:
 * The application should now be running at `http://localhost:8088`
 
 ### Postman collection / Video overview
-* [Postman collection](https://github.com/Someboty/BookShelf/tree/23e0afb8892ba7a5e418cf345126b7f86ae1da2c/src/main/resources) - 
+* [Postman collection]() - 
 I've created a handy Postman collection to simplify and speed up the process of testing my API and engaging with my application. So feel free to use it.
 * [Briefly video overview](https://www.loom.com/share/e9243102c64f477699a61a20f7c7ed90) - at this link you will find a short video overview of my book-app =).
 > To test the application as a user - just create account and use your credentials to obtain JWT-token.
