@@ -7,10 +7,12 @@
 * [ Models and relations](#models-and-relations)
 * [ Project structure](#project-structure)
 * [ Getting Started ](#getting-started)
+* [ Swagger ](#swagger)
+* [Contacts](#contacts)
 
 
 ### Project Overview
-Book-app - is a REST application that supports JWT-based authentication,
+Book-app - is a stateless REST application that supports JWT-based authentication,
 registration and provides platform for both administrator and customers to
 interact with books, shopping-carts, orders. Project was developed according to SOLID principles
 follows a Three-Tier Architecture:
@@ -80,4 +82,15 @@ follows a Three-Tier Architecture:
 * Create a `.env` file with the necessary environment variables. (See `.env-sample` for a sample.)
 * Run the following command to build and start the Docker containers:
   `docker-compose up --build`.
-* The application should now be running at `http://localhost:8088`.
+* The application should now be running at `http://localhost:8088`
+
+### Swagger
+To access the API documentation after running the application, visit the [Swagger API documentation](http://localhost:8088/api/swagger-ui/index.html#/).
+
+[Briefly video overview with Swagger](https://www.loom.com/share/e9243102c64f477699a61a20f7c7ed90) - at this link you will find a short video overview of my book-app =)
+
+### Contacts
+Olena Stankevych -
+yelenastankevych@gmail.com
+
+LinkedIn: [https://www.linkedin.com/in/olena-stankevych-a5998b19a/]()

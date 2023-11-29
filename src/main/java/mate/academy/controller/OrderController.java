@@ -69,7 +69,8 @@ public class OrderController {
     @Operation(
             summary = "Update order status",
             description = """
-                    Update order status. Parameters to be specified: order id and status"""
+                    Update order status. Parameters to be specified: order id and status
+                    (COMPLETED, DELIVERED, PENDING, SHIPPED)"""
     )
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")

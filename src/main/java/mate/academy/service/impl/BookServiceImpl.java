@@ -18,6 +18,7 @@ import mate.academy.repository.filter.BookSpecificationBuilder;
 import mate.academy.service.BookService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -27,18 +28,20 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
     private final BookSpecificationBuilder builder;
 
-    @Override
-    public BookDto save(CreateBookRequestDto bookDto) {
-        Book book = bookMapper.toBook(bookDto);
-        book.setCategories(categoriesIdToCategories(bookDto.categoriesId()));
-        return bookMapper.toDto(bookRepository.save(book));
-    }
-
+    @Transactional
     @Override
     public BookDto updateBook(Long id, CreateBookRequestDto bookDto) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(getNotFoundMessage(id)));
         bookMapper.updateBookFromDto(bookDto, book);
+        book.setCategories(categoriesIdToCategories(bookDto.categoriesId()));
+        return bookMapper.toDto(bookRepository.save(book));
+    }
+
+    @Override
+    @Transactional
+    public BookDto save(CreateBookRequestDto bookDto) {
+        Book book = bookMapper.toBook(bookDto);
         book.setCategories(categoriesIdToCategories(bookDto.categoriesId()));
         return bookMapper.toDto(bookRepository.save(book));
     }
