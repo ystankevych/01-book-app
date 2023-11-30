@@ -7,8 +7,8 @@
 * [ Models and relations](#models-and-relations)
 * [ Project structure](#project-structure)
 * [ Getting Started ](#getting-started)
-* [Postman collection, video overview](#postman-collection-video-overview)
 * [ Swagger ](#swagger)
+* [Postman collection](#postman-collection)
 * [Contacts](#contacts)
 
 
@@ -42,33 +42,33 @@ follows a Three-Tier Architecture:
 * **config**: classes providing application configuration
 * **controller** - rest controllers with following API endpoints
   * **AuthenticationController**:
-    * **POST** ```/api/auth/registration``` - new user registration, access none
-    * **POST** ```api/auth/login``` - get JWT-token for authentication, access ADMIN / USER
+    * _POST_ ```/api/auth/registration``` - new user registration, access ALL
+    * _POST_ ```api/auth/login``` - get JWT-token for authentication, access ALL
   * **BookController**:
-    * **POST** ```/api/books``` - add new book to the DB, access ADMIN
-    * **PUT** ```/api/books/{id}``` - update book with the new value, access ADMIN
-    * **GET** ```/api/books``` get all books from the DB, access ADMIN/USER
-    * **GET** ```/api/books/{id}``` get book by id, access ADMIN/USER
-    * **DELETE** ```/api/books/{id}``` delete book by its id, access ADMIN
-    * **GET** ```/api/books/search``` search books, access ADMIN/USER
+    * _POST_ ```/api/books``` - add new book to the DB, access ADMIN
+    * _PUT_ ```/api/books/{id}``` - update book with the new value, access ADMIN
+    * _GET_ ```/api/books``` get all books from the DB, access ADMIN/USER
+    * _GET_ ```/api/books/{id}``` get book by id, access ADMIN/USER
+    * _DELETE_ ```/api/books/{id}``` delete book by its id, access ADMIN
+    * _GET_ ```/api/books/search``` search books, access ADMIN/USER
   * **CategoryController**:
-    * **POST** ```/api/categories``` add new book category to the DB, access ADMIN
-      * **PUT** ```/api/categories``` update category, access ADMIN
-      * **GET** ```/api/categories``` get list of all categories, access ADMIN/USER
-      * **GET** ```/api/categories/{id}``` get category by its id, access ADMIN/USER
-      * **DELETE** ```/api/categories/{id}``` delete category by its id, access ADMIN
-      * **GET** ```/api/categories/{id}/books``` get list of books by category id, access ADMIN/USER
+      * _POST_ ```/api/categories``` add new book category to the DB, access ADMIN
+      * _PUT_ ```/api/categories``` update category, access ADMIN
+      * _GET_ ```/api/categories``` get list of all categories, access ADMIN/USER
+      * _GET_ ```/api/categories/{id}``` get category by its id, access ADMIN/USER
+      * _DELETE_ ```/api/categories/{id}``` delete category by its id, access ADMIN
+      * _GET_ ```/api/categories/{id}/books``` get list of books by category id, access ADMIN/USER
   * **OrderController**:
-    * **POST** ```/api/orders``` create new order, access USER
-    * **GET** ```/api/orders``` get order history of a logged-in user, access USER
-    * **PATCH** ```/api/orders/{id}``` update order status by its id, access ADMIN
-    * **GET** ```/api/orders/{orderId}/items``` get list of order items of a logged-in user, access USER
-    * **GET** ```/api/orders/{orderId}/items/{itemId}``` get a specific order item from the order of a logged-in user, access USER
+    * _POST_ ```/api/orders``` create new order, access USER
+    * _GET_ ```/api/orders``` get order history of a logged-in user, access USER
+    * _PATCH_ ```/api/orders/{id}``` update order status by its id, access ADMIN
+    * _GET_ ```/api/orders/{orderId}/items``` get list of order items of a logged-in user, access USER
+    * _GET_ ```/api/orders/{orderId}/items/{itemId}``` get a specific order item from the order of a logged-in user, access USER
   * **ShoppingCartController**:
-    * **GET** ```/api/cart``` get the shopping cart of a logged-in user, access USER
-    * **POST** ```/api/cart``` add a new book/update the quantity of books in the cart of a logged-in user, access USER
-    * **PUT** ```/api/cart/cart-items/{cartItemId}``` update the number of books in the cart of a logged-in user, access USER
-    * **DELETE** ```/api/cart/cart-items/{cartItemId}``` delete book from the cart of a logged-in user, access USER
+    * _GET_ ```/api/cart``` get the shopping cart of a logged-in user, access USER
+    * _POST_ ```/api/cart``` add a new book/update the quantity of books in the cart of a logged-in user, access USER
+    * _PUT_ ```/api/cart/cart-items/{cartItemId}``` update the number of books in the cart of a logged-in user, access USER
+    * _DELETE_ ```/api/cart/cart-items/{cartItemId}``` delete book from the cart of a logged-in user, access USER
 * **dto**: Data transfer objects
 * **exception**: custom exceptions
 * **mapper**: classes that generates mapping code based on annotations, reducing the need for manual, error-prone mapping code
@@ -79,26 +79,28 @@ follows a Three-Tier Architecture:
 * **validation** custom annotations for validation
 
 ### Getting started
-* Clone the [**repository**](https://github.com/ystankevych/book-app)
-* Create a `.env` file with the necessary environment variables. (See `.env-sample` for a sample.)
-* Run the following command to build and start the Docker containers:
-  `docker-compose up --build`.
-* The application should now be running at `http://localhost:8088`
+First, ensure you have the following installed:`
+- Java Development Kit (JDK)
+- Docker and Docker Compose
 
-### Postman collection, video overview
+1. Clone the [**repository**](https://github.com/ystankevych/book-app)
+2. Create an `.env` file with the necessary environment variables. (See `.env-sample` for a sample.)
+3. Repackage the project with ```mvn clean package``` command
+4. Run the following commands to build and start the Docker containers:
+  first `docker-compose build` and then ```docker-compose up```.
+5. The application should now be running at `http://localhost:8088`
+
+### Swagger
+To access the API documentation after running the application, visit the [Swagger API documentation](http://localhost:8088/api/swagger-ui/index.html#/).
+
+### Postman collection
 * [Postman collection](https://github.com/ystankevych/book-app/blob/ae18e08b9c210759de86c06915dcc8cdf2afe494/Book.postman_collection.json) - 
 I've created a handy Postman collection to simplify and speed up the process of testing my API and engaging with my application. So feel free to use it.
-* [Briefly video overview](https://www.loom.com/share/e9243102c64f477699a61a20f7c7ed90) - at this link you will find a short video overview of my book-app =).
 > To test the application as a user - just create account and use your credentials to obtain JWT-token.
 
 > To test the application as an admin you could use the following credentials:  
 > ```email: admin@ukr.net```  
 > ```password: 123456```
-
-
-### Swagger
-To access the API documentation after running the application, visit the [Swagger API documentation](http://localhost:8088/api/swagger-ui/index.html#/).
-
 
 ### Contacts
 Olena Stankevych -
