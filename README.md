@@ -106,4 +106,4 @@ I've created a handy Postman collection to simplify and speed up the process of 
 Olena Stankevych -
 yelenastankevych@gmail.com
 
-LinkedIn: [https://www.linkedin.com/in/olena-stankevych-a5998b19a/]()
+LinkedIn: [https://www.linkedin.com/in/olena-stankevych-a5998b19a/](https://www.linkedin.com/in/olena-stankevych-a5998b19a/)
