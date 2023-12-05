@@ -13,14 +13,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
-    @EntityGraph(attributePaths = "categories")
-    Optional<Book> findById(Long id);
-
-    @EntityGraph(attributePaths = "categories")
-    Page<Book> findAll(Specification<Book> spec, Pageable pageable);
+    List<Book> findByCategories_Id(Long categoryId);
 
     @EntityGraph(attributePaths = "categories")
     Page<Book> findAll(Pageable pageable);
 
-    List<Book> findByCategories_Id(Long categoryId);
+    @EntityGraph(attributePaths = "categories")
+    Page<Book> findAll(Specification<Book> specification, Pageable pageable);
+
+    @EntityGraph(attributePaths = "categories")
+    Optional<Book> findById(Long id);
 }
