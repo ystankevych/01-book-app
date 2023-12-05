@@ -1,26 +1,17 @@
 databaseChangeLog:
   - changeSet:
-      id: create-categories-table
+      id: create-shopping-carts-table
       author: Olena Stankevych
       changes:
         - createTable:
-            tableName: categories
+            tableName: shopping_carts
             columns:
               - column:
                   name: id
                   type: bigint
-                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
-              - column:
-                  name: name
-                  type: varchar(32)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: description
-                  type: varchar(255)
               - column:
                   name: is_deleted
                   type: boolean

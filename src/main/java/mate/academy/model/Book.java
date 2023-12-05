@@ -9,17 +9,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "books")
 @SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id = ?")
@@ -28,20 +31,26 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String title;
+
     @Column(nullable = false)
     private String author;
+
     @Column(unique = true, nullable = false)
     private String isbn;
+
     @Column(nullable = false)
     private BigDecimal price;
+
     private String description;
+
     private String coverImage;
+
     private boolean isDeleted;
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @ManyToMany(cascade = CascadeType.MERGE)
+
+    @ManyToMany
     @JoinTable(
             name = "books_categories",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -49,4 +58,7 @@ public class Book {
 
     )
     private Set<Category> categories = new HashSet<>();
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CartItem> cartItems = new ArrayList<>();
 }

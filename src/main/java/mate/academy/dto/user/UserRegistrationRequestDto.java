@@ -6,7 +6,7 @@ import mate.academy.validation.email.Email;
 import mate.academy.validation.password.FieldMatch;
 
 @FieldMatch(
-        fields = {"password", "repeatPassword"},
+        fields = {"password", "repeatedPassword"},
         message = "Password and repeated password must be equal"
 )
 public record UserRegistrationRequestDto(
