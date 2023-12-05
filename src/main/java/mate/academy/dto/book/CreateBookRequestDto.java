@@ -1,4 +1,4 @@
-package mate.academy.dto;
+package mate.academy.dto.book;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,8 +8,10 @@ import java.math.BigDecimal;
 
 public record CreateBookRequestDto(
         @NotBlank(message = "Title must not be null or empty")
+        @Size(max = 255, message = "Maximum allowed size 255 characters")
         String title,
         @NotBlank(message = "Author must not be null or empty")
+        @Size(max = 255, message = "Maximum allowed size 255 characters")
         String author,
         @NotBlank(message = "Isbn must not be null or empty")
         @Size(min = 10, max = 13, message = "Required length 10-13 digits")
@@ -17,6 +19,9 @@ public record CreateBookRequestDto(
         @NotNull(message = "Price must not be null")
         @Positive(message = "Price must not be negative")
         BigDecimal price,
+        @Size(max = 255, message = "Maximum allowed size 255 characters")
         String description,
+        @Size(max = 255, message = "Maximum allowed size 255 characters")
         String coverImage
-) {}
+) {
+}

@@ -1,21 +1,18 @@
 package mate.academy.mapper;
 
-import mate.academy.dto.book.BookDto;
-import mate.academy.dto.book.CreateBookRequestDto;
-import mate.academy.model.Book;
+import mate.academy.dto.user.UserRegistrationRequestDto;
+import mate.academy.dto.user.UserResponseDto;
+import mate.academy.model.User;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
 
 @Mapper(componentModel = "spring",
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         implementationPackage = "<PACKAGE_NAME>.impl")
-public interface BookMapper {
-    BookDto toDto(Book book);
+public interface UserMapper {
+    User toUser(UserRegistrationRequestDto user);
 
-    Book toBook(CreateBookRequestDto createBookRequestDto);
-
-    void updateBookFromDto(CreateBookRequestDto book, @MappingTarget Book entity);
+    UserResponseDto toDto(User user);
 }
