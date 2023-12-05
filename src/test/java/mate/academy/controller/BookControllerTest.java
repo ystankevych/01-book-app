@@ -183,8 +183,7 @@ class BookControllerTest {
     @DisplayName("Getting all books is Ok")
     @WithMockUser(username = "user", roles = "USER")
     void getAll_ListOfBooks_Ok() throws Exception {
-        MvcResult result = mockMvc.perform(get("/books")
-                        .contentType(MediaType.APPLICATION_JSON))
+        MvcResult result = mockMvc.perform(get("/books"))
                 .andExpect(status().isOk())
                 .andReturn();
 
