@@ -1,5 +1,7 @@
 package mate.academy.config;
 
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
 import lombok.RequiredArgsConstructor;
 import mate.academy.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
@@ -35,7 +37,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/auth/**")
+                                .requestMatchers(
+                                        antMatcher("/auth/**"),
+                                        antMatcher("/swagger-ui/**"),
+                                        antMatcher("/v3/api-docs/**"))
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
