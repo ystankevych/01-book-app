@@ -45,6 +45,9 @@ public class ShoppingCart {
 
     public void removeItemFromCart(CartItem cartItem) {
         cartItems.remove(cartItem);
-        cartItem.setShoppingCart(null);
+    }
+
+    public void clearCart() {
+        cartItems.clear();
     }
 }
